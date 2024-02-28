@@ -1,0 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#game-container {
+    margin-top: 50px;
+}
+
+#flag-container {
+    margin-bottom: 20px;
+    border: 2px dotted;
+    background-color: burlywood;
+}
+
+#options-container button {
+    margin: 5px;
+}
