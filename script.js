@@ -230,6 +230,8 @@ const flags = [
 
 
 let currentFlagIndex = 0;
+let answer = true;
+let score = 0;
 
 
 // Function to initialize the game
@@ -249,6 +251,16 @@ function showFlag() {
     const flagContainer = document.getElementById("flag-container");
     flagContainer.innerHTML = `<img src="${flags[currentFlagIndex].imageUrl}" alt="Flag">`;
 }
+
+function keepScore() {
+    const getScore = document.getElementById("get-score");
+    if (answer == true) {
+        score += 1;
+    } 
+    getScore.textContent = score;
+}
+
+
 
 // Function to display options for guessing
 function showOptions() {
@@ -289,10 +301,11 @@ function shuffleArray(array) {
 // Function to check the guessed answer
 function checkAnswer(guess) {
     if (guess === flags[currentFlagIndex].country) {
-        
         currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+        keepScore();
         initGame();
     } else {
+        answer = false;
         alert("Incorrect. Try again!");
     }
 }
