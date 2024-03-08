@@ -1,6 +1,17 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
+    background-image: url(world_map.png);
+    image-rendering: auto;
+}
+
+head {
+    background-image: url(world_map.png);
+}
+
+#title {
+    font-size: 30px;
+    
 }
 
 #game-container {
@@ -8,11 +19,33 @@ body {
 }
 
 #flag-container {
-    margin-bottom: 20px;
-    border: 2px dotted;
-    background-color: burlywood;
+    
+    display:block;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 27.8%;
+   
 }
 
 #options-container button {
     margin: 5px;
 }
+
+#score {
+    color: green;
+}
+
+#scoreTab {
+    background-color: aliceblue;
+    display:block;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 27.8%;
+}
+
+#mistake {
+    color: red;
+}
+

@@ -6,7 +6,7 @@ const flags = [
     { country: "Andorra", imageUrl: "flag/Andorra.png"},
     { country: "Angola", imageUrl: "flag/Angola.png" },
     { country: "Anguilla", imageUrl: "flag/Anguilla.png"},
-    { country: "Antigua and Barbuda", imageUrl: "flag/Antigua_and_Barmuda"},
+    { country: "Antigua and Barbuda", imageUrl: "flag/Antigua_and_Barbuda.png"},
     { country: "Argentina", imageUrl: "flag/Argentina.png" },
     { country: "Armenia", imageUrl: "flag/Armenia.png" },
     { country: "Aruba", imageUrl: "flag/Aruba.png"},
@@ -41,12 +41,12 @@ const flags = [
     { country: "Chad", imageUrl: "flag/Chad.png"},
     { country: "Chile", imageUrl: "flag/Chile.png" },
     { country: "China", imageUrl: "flag/China.png" },
-    { country: "Christmas Island", imageUrl: "flag/Chrismas_Island.png"},
+    { country: "Christmas Island", imageUrl: "flag/Christmas_Island.png"},
     { country: "Colombia", imageUrl: "flag/Colombia.png" },
     { country: "Comoros", imageUrl: "flag/Comoros.png" },
     { country: "Cook Islands", imageUrl: "flag/Cook_Islands.png"},
     { country: "Costa Rica", imageUrl: "flag/Costa_Rica.png" },
-    { country: "Ivory Coast", imageUr: "flag/Côte_d'Ivoire.png"},
+    { country: "Ivory Coast", imageUrl: "flag/Ivory_Coast.png"},
     { country: "Croatia", imageUrl: "flag/Croatia.png" },
     { country: "Cuba", imageUrl: "flag/Cuba.png" },
     { country: "Cyprus", imageUrl: "flag/Cyprus.png" },
@@ -170,7 +170,7 @@ const flags = [
     { country: "Saint Kitts and Nevis", imageUrl: "flag/Saint_Kitts_and_Nevis.png" },
     { country: "Saint Lucia", imageUrl: "flag/Saint_Lucia.png" },
     { country: "Saint Pierre", imageUrl: "flag/Saint_Pierre.png"},
-    { country: "Saint Vincent and the Grenadines", imageUrl: "flag/Saint_Vincent_and_the_Grenadines.png" },
+    { country: "Saint Vincent and the Grenadines", imageUrl: "flag/Saint_Vicent_and_the_Grenadines.png" },
     { country: "Samoa", imageUrl: "flag/Samoa.png" },
     { country: "San Marino", imageUrl: "flag/San_Marino.png" },
     { country: "Sao Tome and Principe", imageUrl: "flag/Sao_Tome_and_Principe.png" },
@@ -182,7 +182,7 @@ const flags = [
     { country: "Singapore", imageUrl: "flag/Singapore.png" },
     { country: "Slovakia", imageUrl: "flag/Slovakia.png" },
     { country: "Slovenia", imageUrl: "flag/Slovenia.png" },
-    { country: "Solomon Islands", imageUrl: "flag/Solomon_Islands.png" },
+    { country: "Solomon Islands", imageUrl: "flag/Soloman_Islands.png" },
     { country: "Somalia", imageUrl: "flag/Somalia.png" },
     { country: "South Africa", imageUrl: "flag/South_Africa.png" },
     { country: "South Georgia", imageUrl: "flag/South_Georgia.png"},
@@ -232,19 +232,45 @@ const flags = [
 let currentFlagIndex = 0;
 let answer = true;
 let score = 0;
+let mistake = 0;
+const getScore = document.getElementById("get-score");
+const getMistake = document.getElementById("get-mistake");
 
 
-// Function to initialize the game
+//Function to initalize the game
+
 function initGame() {
+    
+    initGameNormal();
+    initGameHard();
+    initGameEasy();
+}
+
+// Function to initialize the game  on Easy
+function initGameEasy() {
    
     currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
+    
     showFlag();
-    showOptions();
+    showOptionsEasy();
    
     }
 
- 
+// Function to initialize the game on Normal
 
+function initGameNormal() {
+    currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
+    showFlag();
+    showOptionsNormal();
+}
+
+// Function to initialize the game on Hard
+
+function initGameHard() {
+    currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
+    showFlag();
+    showOptionsHard();
+}
 
 // Function to display the flag image
 function showFlag() {
@@ -252,33 +278,101 @@ function showFlag() {
     flagContainer.innerHTML = `<img src="${flags[currentFlagIndex].imageUrl}" alt="Flag">`;
 }
 
+// Function to keep score
+
 function keepScore() {
-    const getScore = document.getElementById("get-score");
+    
     if (answer == true) {
         score += 1;
     } 
     getScore.textContent = score;
 }
 
+// Function to keep the mistake
 
+function keepMistake() {
+   
+    if (answer == false) {
+        mistake += 1;
+    }
+    getMistake.textContent = mistake;
+}
 
-// Function to display options for guessing
-function showOptions() {
-    const optionsContainer = document.getElementById("options-container");
+// Function to display options for guessing on easy
+const optionsContainer = document.getElementById("options-container");
+function showOptionsEasy() {
     optionsContainer.innerHTML = "";
-    const options = getRandomOptions();
+    const options = getRandomOptionsEasy();
     options.forEach(option => {
         const button = document.createElement("button");
         button.textContent = option;
-        button.addEventListener("click", () => checkAnswer(option));
+        button.addEventListener("click", () => checkAnswerEasy(option));
         optionsContainer.appendChild(button);
     });
 }
 
-// Function to get random options for guessing
-function getRandomOptions() {
+// Function to display options for guessing on normal
+
+function showOptionsNormal() {
+   
+    optionsContainer.innerHTML = "";
+    const options = getRandomOptionsNormal();
+    options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => checkAnswerNormal(option));
+        optionsContainer.appendChild(button);
+    });
+}
+
+// Function to display options for guessing on hard
+
+function showOptionsHard() {
+    
+    optionsContainer.innerHTML = "";
+    const options = getRandomOptionsHard();
+    options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => checkAnswerHard(option));
+        optionsContainer.appendChild(button);
+    });
+}
+
+// Function to get random options for guessing on easy
+function getRandomOptionsEasy() {
     const options = [];
-    while (options.length < 6) {
+    while (options.length < 1) {
+        const randomIndex = Math.floor(Math.random() * flags.length);
+        const randomCountry = flags[randomIndex].country;
+        if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
+            options.push(randomCountry);
+        }
+    }
+    options.push(flags[currentFlagIndex].country);
+    return shuffleArray(options);
+}
+
+// Function to get random options for guessing on normal
+
+function getRandomOptionsNormal() {
+    const options = [];
+    while (options.length < 3) {
+        const randomIndex = Math.floor(Math.random() * flags.length);
+        const randomCountry = flags[randomIndex].country;
+        if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
+            options.push(randomCountry);
+        }
+    }
+    options.push(flags[currentFlagIndex].country);
+    return shuffleArray(options);
+}
+
+// Function to get random options for guessing on hard
+
+function getRandomOptionsHard() {
+    const options = [];
+    while (options.length < 99) {
         const randomIndex = Math.floor(Math.random() * flags.length);
         const randomCountry = flags[randomIndex].country;
         if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
@@ -298,23 +392,87 @@ function shuffleArray(array) {
     return array;
 }
 
-// Function to check the guessed answer
-function checkAnswer(guess) {
+// Function to check the guessed answer on easy
+function checkAnswerEasy(guess) {
     if (guess === flags[currentFlagIndex].country) {
         currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+        answer = true;
         keepScore();
-        initGame();
+        initGameEasy();
     } else {
         answer = false;
-        alert("Incorrect. Try again!");
+        keepMistake();
     }
 }
+
+// Function to check the guessed answer on normal
+
+function checkAnswerNormal(guess) {
+    if (guess === flags[currentFlagIndex].country) {
+        currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+        answer = true;
+        keepScore();
+        initGameNormal();
+    } else {
+        answer = false;
+        keepMistake();
+    }
+}
+
+// Function to check the guessed answer on hard
+
+function checkAnswerHard(guess) {
+    if (guess === flags[currentFlagIndex].country) {
+        currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+        answer = true;
+        keepScore();
+        initGameHard();
+    } else {
+        answer = false;
+        keepMistake();
+    }
+}
+
+
 
 // Event listener for the next button
 document.getElementById("next-btn").addEventListener("click", () => {
     currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+    answer = false;
+    keepMistake();
     initGame();
 });
+
+// Event listener for restart button
+document.getElementById("restart").addEventListener("click", ()=> {
+    
+    score = 0;
+    mistake = 0;
+    getMistake.textContent = mistake;
+    getScore.textContent = score;
+    initGame();
+} )
+
+// Event listener to change difficulty to easy
+
+document.getElementById("easy").addEventListener("click", ()=> {
+    initGameEasy();
+    alert("The game is now on easy mode");
+})
+
+// Event listener to change difficulty to normal
+
+document.getElementById("normal").addEventListener("click", ()=> {
+    initGameNormal();
+    alert("The game is now on normal mode");
+})
+
+// Event listener to change difficulty to hard
+
+document.getElementById("hard").addEventListener("click", ()=> {
+    initGameHard();
+    alert("The game is now on Where my glasses mode");
+})
 
 // Initialize the game
 initGame();
