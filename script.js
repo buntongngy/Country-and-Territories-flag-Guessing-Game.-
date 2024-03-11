@@ -332,20 +332,25 @@ function shuffleArray(array) {
     return array;
 }
 
+let shownFlags = []; // Initialize an array to keep track of shown flags
+
+// FUnction to check the answer
 function checkAnswer(guess) {
     if (guess === flags[currentFlagIndex].country) {
-        currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
         answer = true;
         keepScore();
-        initGame(currentDiffculty);
+        shownFlags.push(currentFlagIndex); // Add the current flag to the array of shown flags
+        do {
+            currentFlagIndex = Math.floor(Math.random() * flags.length);
+        } while (shownFlags.includes(currentFlagIndex)); // Ensure a different flag is selected
+        showFlag(); // Show the next flag
+        showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
     } else {
-        currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
         answer = false;
         keepMistake();
-        initGame(currentDiffculty);
     }
-    showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
 }
+
 
 
 
