@@ -233,44 +233,36 @@ let currentFlagIndex = 0;
 let answer = true;
 let score = 0;
 let mistake = 0;
+let currentDiffculty = "normal";
 const getScore = document.getElementById("get-score");
 const getMistake = document.getElementById("get-mistake");
+const flag_question = 1;
+const easy_option = 2;
+const normal_option = 4;
+const hard_option = 99;
+
 
 
 //Function to initalize the game
 
-function initGame() {
-    
-    initGameNormal();
-    initGameHard();
-    initGameEasy();
-}
-
-// Function to initialize the game  on Easy
-function initGameEasy() {
-   
-    currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
-    
+function initGame(difficulty) {
+    currentDiffculty = difficulty;
+    currentFlagIndex = Math.floor(Math.random() * flags.length);
     showFlag();
-    showOptionsEasy();
-   
+    switch (difficulty) {
+        case "easy":
+            showOptions(flag_question, easy_option);
+            break;
+        case "normal":
+            showOptions(flag_question, normal_option);
+            break;
+        case "hard":
+            showOptions(flag_question, hard_option);
+            break;
     }
-
-// Function to initialize the game on Normal
-
-function initGameNormal() {
-    currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
-    showFlag();
-    showOptionsNormal();
 }
 
-// Function to initialize the game on Hard
 
-function initGameHard() {
-    currentFlagIndex = Math.floor(Math.random() * flags.length); // Choose a random flag index
-    showFlag();
-    showOptionsHard();
-}
 
 // Function to display the flag image
 function showFlag() {
@@ -300,49 +292,25 @@ function keepMistake() {
 
 // Function to display options for guessing on easy
 const optionsContainer = document.getElementById("options-container");
-function showOptionsEasy() {
+function showOptions(flag_question, numOptions) {
     optionsContainer.innerHTML = "";
-    const options = getRandomOptionsEasy();
+    const options = getRandomOptions(flag_question, numOptions);
     options.forEach(option => {
         const button = document.createElement("button");
         button.textContent = option;
-        button.addEventListener("click", () => checkAnswerEasy(option));
+        button.addEventListener("click", () => checkAnswer(option));
         optionsContainer.appendChild(button);
     });
-}
-
-// Function to display options for guessing on normal
-
-function showOptionsNormal() {
    
-    optionsContainer.innerHTML = "";
-    const options = getRandomOptionsNormal();
-    options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.addEventListener("click", () => checkAnswerNormal(option));
-        optionsContainer.appendChild(button);
-    });
 }
 
-// Function to display options for guessing on hard
 
-function showOptionsHard() {
+
+
+function getRandomOptions(flag_question, numOptions) {
+    const options = [];
     
-    optionsContainer.innerHTML = "";
-    const options = getRandomOptionsHard();
-    options.forEach(option => {
-        const button = document.createElement("button");
-        button.textContent = option;
-        button.addEventListener("click", () => checkAnswerHard(option));
-        optionsContainer.appendChild(button);
-    });
-}
-
-// Function to get random options for guessing on easy
-function getRandomOptionsEasy() {
-    const options = [];
-    while (options.length < 1) {
+    while (options.length < numOptions - 1) {
         const randomIndex = Math.floor(Math.random() * flags.length);
         const randomCountry = flags[randomIndex].country;
         if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
@@ -353,35 +321,7 @@ function getRandomOptionsEasy() {
     return shuffleArray(options);
 }
 
-// Function to get random options for guessing on normal
 
-function getRandomOptionsNormal() {
-    const options = [];
-    while (options.length < 3) {
-        const randomIndex = Math.floor(Math.random() * flags.length);
-        const randomCountry = flags[randomIndex].country;
-        if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
-            options.push(randomCountry);
-        }
-    }
-    options.push(flags[currentFlagIndex].country);
-    return shuffleArray(options);
-}
-
-// Function to get random options for guessing on hard
-
-function getRandomOptionsHard() {
-    const options = [];
-    while (options.length < 99) {
-        const randomIndex = Math.floor(Math.random() * flags.length);
-        const randomCountry = flags[randomIndex].country;
-        if (!options.includes(randomCountry) && randomCountry !== flags[currentFlagIndex].country) {
-            options.push(randomCountry);
-        }
-    }
-    options.push(flags[currentFlagIndex].country);
-    return shuffleArray(options);
-}
 
 // Function to shuffle array
 function shuffleArray(array) {
@@ -392,87 +332,54 @@ function shuffleArray(array) {
     return array;
 }
 
-// Function to check the guessed answer on easy
-function checkAnswerEasy(guess) {
+function checkAnswer(guess) {
     if (guess === flags[currentFlagIndex].country) {
-        currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+        currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
         answer = true;
         keepScore();
-        initGameEasy();
+        initGame(currentDiffculty);
     } else {
+        currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
         answer = false;
         keepMistake();
+        initGame(currentDiffculty);
     }
-}
-
-// Function to check the guessed answer on normal
-
-function checkAnswerNormal(guess) {
-    if (guess === flags[currentFlagIndex].country) {
-        currentFlagIndex = (currentFlagIndex + 1) % flags.length;
-        answer = true;
-        keepScore();
-        initGameNormal();
-    } else {
-        answer = false;
-        keepMistake();
-    }
-}
-
-// Function to check the guessed answer on hard
-
-function checkAnswerHard(guess) {
-    if (guess === flags[currentFlagIndex].country) {
-        currentFlagIndex = (currentFlagIndex + 1) % flags.length;
-        answer = true;
-        keepScore();
-        initGameHard();
-    } else {
-        answer = false;
-        keepMistake();
-    }
+    showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
 }
 
 
 
-// Event listener for the next button
+
 document.getElementById("next-btn").addEventListener("click", () => {
-    currentFlagIndex = (currentFlagIndex + 1) % flags.length;
+    currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
     answer = false;
     keepMistake();
-    initGame();
+   
+    initGame(currentDiffculty);
 });
 
-// Event listener for restart button
-document.getElementById("restart").addEventListener("click", ()=> {
-    
+document.getElementById("restart").addEventListener("click", () => {
     score = 0;
     mistake = 0;
     getMistake.textContent = mistake;
     getScore.textContent = score;
-    initGame();
-} )
+   
+    initGame(currentDiffculty);
+});
 
-// Event listener to change difficulty to easy
-
-document.getElementById("easy").addEventListener("click", ()=> {
-    initGameEasy();
+document.getElementById("easy").addEventListener("click", () => {
+    initGame("easy");
     alert("The game is now on easy mode");
-})
+});
 
-// Event listener to change difficulty to normal
-
-document.getElementById("normal").addEventListener("click", ()=> {
-    initGameNormal();
+document.getElementById("normal").addEventListener("click", () => {
+    initGame("normal");
     alert("The game is now on normal mode");
-})
+});
 
-// Event listener to change difficulty to hard
-
-document.getElementById("hard").addEventListener("click", ()=> {
-    initGameHard();
+document.getElementById("hard").addEventListener("click", () => {
+    initGame("hard");
     alert("The game is now on Where my glasses mode");
-})
+});
 
-// Initialize the game
-initGame();
+initGame("normal"); // Default difficulty level
