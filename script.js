@@ -242,9 +242,7 @@ const normal_option = 4;
 const hard_option = 99;
 
 
-
 //Function to initalize the game
-
 function initGame(difficulty) {
     currentDiffculty = difficulty;
     currentFlagIndex = Math.floor(Math.random() * flags.length);
@@ -260,6 +258,13 @@ function initGame(difficulty) {
             showOptions(flag_question, hard_option);
             break;
     }
+
+     // Retrieve the score and high score from localStorage
+     score = localStorage.getItem("score") ? parseInt(localStorage.getItem("score")) : 0;
+     const highScore = localStorage.getItem("highScore") ? parseInt(localStorage.getItem("highScore")) : 0;
+     // Update the score and high score display
+     getScore.textContent = score;
+     document.getElementById("high-score").textContent = highScore;
 }
 
 
@@ -278,6 +283,10 @@ function keepScore() {
         score += 1;
     } 
     getScore.textContent = score;
+    if (score > parseInt(localStorage.getItem("highScore") || 0)) {
+        localStorage.setItem("highScore", score);
+        document.getElementById("high-score").textContent = score;
+    }
 }
 
 // Function to keep the mistake
@@ -288,6 +297,16 @@ function keepMistake() {
         mistake += 1;
     }
     getMistake.textContent = mistake;
+}
+
+// Function to reset the score
+function resetScore() {
+    // Reset the score variable
+    score = 0;
+    // Update the score display
+    getScore.textContent = score;
+    // Clear the stored score in localStorage
+    localStorage.removeItem("score");
 }
 
 // Function to display options for guessing on easy
@@ -333,6 +352,7 @@ function shuffleArray(array) {
 }
 
 let shownFlags = []; // Initialize an array to keep track of shown flags
+let wrongFlags = [];
 
 // FUnction to check the answer
 function checkAnswer(guess) {
@@ -348,20 +368,15 @@ function checkAnswer(guess) {
     } else {
         answer = false;
         keepMistake();
+        wrongFlags.push(currentFlagIndex);
+        do {
+            currentFlagIndex = Math.floor(Math.random() * flags.length);
+      } while (shownFlags.includes(currentFlagIndex) || wrongFlags.includes(currentFlagIndex)); // Ensure a different flag is selected
+        showFlag(); // Show another flag
+        showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
+        
     }
 }
-
-
-
-
-
-document.getElementById("next-btn").addEventListener("click", () => {
-    currentFlagIndex = (currentFlagIndex + flag_question) % flags.length;
-    answer = false;
-    keepMistake();
-   
-    initGame(currentDiffculty);
-});
 
 document.getElementById("restart").addEventListener("click", () => {
     score = 0;
