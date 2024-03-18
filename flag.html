@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flag Guessing Game</title>
     <link rel="stylesheet" href="style.css">
-    <div id = title>
-    <h1>Welcome to Flag Guessing Game</h1>
+    <!-- Include Font Awesome CSS via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="...">
+   
     </div>
+    <nav class = "navbar">
     <h2>Select your diffculty</h2>
-    <button id="easy">Easy mode</button>
-    <button id="normal"> Normal mode</button>
-    <button id="hard">Where my glasses mode</button>
+   <ul id="easy">
+    <button><i class="fas fa-star"></i>Easy Mode</button>
+</ul>
+    <ul id="normal">
+       <button><i class="fas fa-adjust"></i>Normal Mode</button>
+    </ul>
+    <ul id="hard">
+        <button><i class="fas fa-fire"></i>Hard Mode</button>
+    </ul>
+</nav>
+
+
+
+<title>Flag Guessing Game</title>
+
+<div id = title>
+<h1>Welcome to Flag Guessing Game</h1>
 </head>
 <body>
     <div id="game-container">

@@ -49,3 +49,24 @@ head {
     color: red;
 }
 
+.navbar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background-color: lightblue;
+    top: 0;
+    left: 0; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.navbar button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.navbar button i {
+    margin-right: 5px;
+    font-size: 20px;
+}

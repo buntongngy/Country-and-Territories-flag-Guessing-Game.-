@@ -152,7 +152,7 @@ const flags = [
     { country: "Oman", imageUrl: "flag/Oman.png" },
     { country: "Pakistan", imageUrl: "flag/Pakistan.png" },
     { country: "Palau", imageUrl: "flag/Palau.png" },
-    { country: "Palestine", imageUrl: "flag/Palestine.jpg" },
+    { country: "Palestine", imageUrl: "flag/Palestine.png" },
     { country: "Panama", imageUrl: "flag/Panama.png" },
     { country: "Papua New Guinea", imageUrl: "flag/Papua_New_Guinea.png" },
     { country: "Paraguay", imageUrl: "flag/Paraguay.png" },
@@ -200,7 +200,7 @@ const flags = [
     { country: "Tajikistan", imageUrl: "flag/Tajikistan.png" },
     { country: "Tanzania", imageUrl: "flag/Tanzania.png" },
     { country: "Thailand", imageUrl: "flag/Thailand.png" },
-    { country: "Tibet", imageUrl: "flag/Tibet.png"},
+    { country: "Tibet", imageUrl: "flag/Tibet.jpg"},
     { country: "Timor-Leste", imageUrl: "flag/Timor-Leste.png" },
     { country: "Togo", imageUrl: "flag/Togo.png" },
     { country: "Tonga", imageUrl: "flag/Tonga.png" },
@@ -301,15 +301,15 @@ function keepMistake() {
 
 // Function to reset the score
 function resetScore() {
-    // Reset the score variable
+    
     score = 0;
-    // Update the score display
+   
     getScore.textContent = score;
-    // Clear the stored score in localStorage
+   
     localStorage.removeItem("score");
 }
 
-// Function to display options for guessing on easy
+// Function to display options for guessing 
 const optionsContainer = document.getElementById("options-container");
 function showOptions(flag_question, numOptions) {
     optionsContainer.innerHTML = "";
@@ -325,7 +325,7 @@ function showOptions(flag_question, numOptions) {
 
 
 
-
+// Function to get random options for player to choose
 function getRandomOptions(flag_question, numOptions) {
     const options = [];
     
@@ -352,7 +352,7 @@ function shuffleArray(array) {
 }
 
 let shownFlags = []; // Initialize an array to keep track of shown flags
-let wrongFlags = [];
+let wrongFlags = []; // Initialize an array to keep track of incorrect guessed flag
 
 // FUnction to check the answer
 function checkAnswer(guess) {
@@ -377,6 +377,8 @@ function checkAnswer(guess) {
         
     }
 }
+
+
 
 document.getElementById("restart").addEventListener("click", () => {
     score = 0;
