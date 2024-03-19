@@ -37,12 +37,15 @@ head {
 }
 
 #scoreTab {
+    position: fixed;
+    top: 0;
+    right: 0;
     background-color: aliceblue;
-    display:block;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 27.8%;
+    width: 200px; /* Adjust width as needed */
+    text-align: center;
+    padding-bottom: 5px ;
+    border: 5px double black;
+    margin-top: 2px;
 }
 
 #mistake {
