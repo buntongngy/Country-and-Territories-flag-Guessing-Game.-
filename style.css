@@ -50,7 +50,7 @@ head {
 }
 
 .navbar {
-    width: 250px;
+    width: 100px;
     height: 100vh;
     position: fixed;
     background-color: lightblue;
@@ -58,15 +58,53 @@ head {
     left: 0; 
     margin: 0; 
     padding: 0; 
+    transition: width 200ms ease;
+    overflow: hidden;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .navbar button {
     margin: 5px;
-    padding: 10px;
-    font-size: 18px;
+    padding: 5px;
+    font-size: 15px;
+    border: 2px wheat;
+    border: none;   
+    display: none;
+    cursor: pointer;
 }
 
 .navbar button i {
     margin-right: 5px;
     font-size: 20px;
+}
+
+ .navbar:hover {
+    width: 16rem;
+ }
+
+ .navbar:hover button {
+    display: block; 
+}
+
+.navbar:not(:hover) button:first-child {
+    display: flex; 
+    font-size: 0;
+    background-color: transparent;
+    
 }
