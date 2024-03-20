@@ -239,7 +239,7 @@ const getMistake = document.getElementById("get-mistake");
 const flag_question = 1;
 const easy_option = 2;
 const normal_option = 4;
-const hard_option = 99;
+const hard_option = 16;
 
 
 //Function to initalize the game
@@ -257,6 +257,8 @@ function initGame(difficulty) {
         case "hard":
             showOptions(flag_question, hard_option);
             break;
+        case "endless":
+            showOptions(flag_question, hard_option)
     }
 
      // Retrieve the score and high score from localStorage
@@ -365,6 +367,8 @@ function checkAnswer(guess) {
         } while (shownFlags.includes(currentFlagIndex)); // Ensure a different flag is selected
         showFlag(); // Show the next flag
         showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
+
+        winCondition()
     } else {
         answer = false;
         keepMistake();
@@ -375,7 +379,61 @@ function checkAnswer(guess) {
         showFlag(); // Show another flag
         showOptions(flag_question, currentDiffculty === "easy" ? easy_option : currentDiffculty === "normal" ? normal_option : hard_option);
         
+        loseCondition();
     }
+}
+
+function winCondition() {
+    switch(currentDiffculty) {
+        case "easy":
+            if(score == 20 ) {
+                alert("Congratuation");
+                resetGame();
+            }
+            break;
+        case "normal":
+            if(score == 40 ) {
+                alert("Congratuation");
+                resetGame();
+            }
+            break;
+        case "hard":
+            if(score ==100) {
+                alert("Congratuation");
+                resetGame();
+            }
+    }
+    
+}
+
+function loseCondition() {
+    switch(currentDiffculty) {
+        case "easy":
+            if(mistake == 10 ) {
+                alert("Game over");
+                resetGame();
+            }
+            break;
+        case "normal":
+            if(mistake == 5 ) {
+                alert("Game over");
+                resetGame();
+            }
+            break;
+        case "hard":
+            if(mistake ==3) {
+                alert("Game over");
+                resetGame();
+            }
+    }
+}
+
+function resetGame() {
+    score = 0;
+    mistake = 0;
+    getScore.textContent = score;
+    getMistake.textContent = mistake;
+    initGame(currentDiffculty);
 }
 
 
@@ -389,6 +447,8 @@ document.getElementById("restart").addEventListener("click", () => {
     initGame(currentDiffculty);
 });
 
+
+
 document.getElementById("easy").addEventListener("click", () => {
     initGame("easy");
     alert("The game is now on easy mode");
@@ -401,7 +461,12 @@ document.getElementById("normal").addEventListener("click", () => {
 
 document.getElementById("hard").addEventListener("click", () => {
     initGame("hard");
-    alert("The game is now on Where my glasses mode");
+    alert("The game is now on hard mode");
 });
+
+document.getElementById("endless").addEventListener("click", () =>{
+    initGame("endless");
+    alert("The game is now on endless mode")
+}) 
 
 initGame("normal"); // Default difficulty level
