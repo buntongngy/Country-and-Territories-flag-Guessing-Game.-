@@ -250,14 +250,22 @@ function initGame(difficulty) {
     switch (difficulty) {
         case "easy":
             showOptions(flag_question, easy_option);
+            mistake = 10;
+            getMistake.textContent = mistake;
             break;
         case "normal":
             showOptions(flag_question, normal_option);
+            mistake = 5;
+            getMistake.textContent = mistake;
             break;
         case "hard":
             showOptions(flag_question, hard_option);
+            mistake = 3;
+            getMistake.textContent = mistake;
             break;
         case "endless":
+            mistake = Infinity;
+            getMistake.textContent = mistake;
             showOptions(flag_question, hard_option)
     }
 
@@ -296,7 +304,7 @@ function keepScore() {
 function keepMistake() {
    
     if (answer == false) {
-        mistake += 1;
+        mistake -= 1;
     }
     getMistake.textContent = mistake;
 }
@@ -407,25 +415,11 @@ function winCondition() {
 }
 
 function loseCondition() {
-    switch(currentDiffculty) {
-        case "easy":
-            if(mistake == 10 ) {
+    
+            if(mistake ==0) {
                 alert("Game over");
                 resetGame();
             }
-            break;
-        case "normal":
-            if(mistake == 5 ) {
-                alert("Game over");
-                resetGame();
-            }
-            break;
-        case "hard":
-            if(mistake ==3) {
-                alert("Game over");
-                resetGame();
-            }
-    }
 }
 
 function resetGame() {
